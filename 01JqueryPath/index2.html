@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery HTML SVG Connect Plugin Demo</title>
+  <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="jquery.html-svg-connect.js"></script>
+  
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $("#svgContainer").HTMLSVGconnect({
+        stroke: "#000",
+        strokeWidth: 4,
+        orientation: "auto",
+        paths: [
+          { start: "#a", end: "#b", strokeWidth: 4, },
+          { start: "#purple", end: "#green", stroke: "red", }
+        ]
+      });
+    });
+  </script>
+  <style>
+    #svgContainer {
+      z-index: -10;
+      position: absolute;
+
+      background-color: gray;
+      opacity: 0.5;
+    }
+    
+    body {
+      background-color: gray;
+    }
+    div {
+      opacity: 0.6;
+    }
+    #outer {
+      width: 80%;
+    }
+    #green {
+      margin-bottom: 100px;
+      width: 5em;
+      height: 7em;
+      background-color: green;
+    }
+    #purple {
+      width: 5em;
+      height: 7em;
+      background-color: purple;
+    }
+    
+  </style>
+</head>
+
+<body>
+<div id="svgContainer"></div>
+
+</div>
+</div>
+  <div id="outer">
+    <div id="green"></div>
+    <div id="purple"></div>
+    <svg width="400" height="500">
+        <rect id="a" width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+        <rect id="b" y="300" width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+      </svg>
+  </div>
+</body>
+</html>

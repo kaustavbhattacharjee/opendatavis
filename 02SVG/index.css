@@ -1,0 +1,66 @@
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+#mySVG{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+#line{
+  stroke-width:2px;
+  stroke:rgb(0,0,0);
+}
+
+.point{
+  width: 100px;
+  height: 100px;
+  background: #d54501;
+  position: absolute;
+  z-index: 10;  
+}
+
+body {
+  font-family: 'Niramit', sans-serif;
+  background-color: #b2ada3;
+
+}
+p {
+  margin-left: 20px;
+  margin-right:20px;
+  position: relative;
+  z-index: 11;
+  background: rgba(178, 173, 163, .55)
+}
+#one{
+  top: 80px;
+  left: 50px;
+}
+
+#two{
+  top: 290px;
+  right: 50px;
+}
+#three {
+  top: 390px;
+  right: 150px;
+}
+#four {
+  top: 590px;
+  left: 20px;
+}
+.btn {
+  display: inline-block;
+  background: #4e7c80;
+  color: white;
+  padding: 10px 15px;
+  margin-left: 5px;
+  cursor: pointer;
+  position: relative;
+  z-index: 11;
+  line-height: 1em;
+}
