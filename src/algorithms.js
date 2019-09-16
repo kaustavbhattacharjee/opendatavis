@@ -178,7 +178,6 @@ export function dataset_grouper(datasets,matrix,combinations){
         arr[0]=combinations[i]
         for(var j=0;j<secondMatrix[1].length;j++){
             if(arrayContainsArray(secondMatrix[1][j],combinations[i])){
-                
                arr[1].push(secondMatrix[0][j]); 
                 //console.log(combinations[i],secondMatrix[0][j])
             }
@@ -199,8 +198,11 @@ export function subsetRemover(grouped_datasets){
             if((JSON.stringify(subsetRemovedArray[i][1])) === JSON.stringify(subsetRemovedArray[j][1])){
                 delete subsetRemovedArray[j];
             }
-        else{
-            
+            else if (arrayContainsArray(subsetRemovedArray[i][1],subsetRemovedArray[j][1])){
+                delete subsetRemovedArray[j];
+            }
+            else if (arrayContainsArray(subsetRemovedArray[j][1],subsetRemovedArray[i][1])){
+                delete subsetRemovedArray[i];
             }
         }
     } 
@@ -212,5 +214,37 @@ export function subsetRemover(grouped_datasets){
             }
         }
 }
+//console.log(return_Array)
+duplicate_remover(return_Array)
 return return_Array;
+}
+export function duplicate_remover(array_dataset){
+  //console.log(array_dataset)
+  //-------------sort the dataset group
+  var datasets=[]
+  for(var i=0;i<array_dataset.length;i++){
+    var tempobj={"attr":array_dataset[i][0],"datset_group":array_dataset[i][1],"group_length":array_dataset[i][1].length}
+    datasets.push(tempobj)
+  } 
+  datasets.sort(function (a, b) {
+    return b.group_length - a.group_length;
+  });
+  //-------------loop through the array
+  for(var i=0;i<datasets.length-1;i++){
+        for(var j=0;j<datasets[i+1].group_length;j++){
+
+            if(datasets[i].datset_group.includes(datasets[i+1].datset_group[j])){
+                //console.log(datasets[i].datset_group,datasets[i+1].datset_group[j])
+                //console.log(datasets[i+1].datset_group[j])                
+                delete datasets[i+1].datset_group[j]
+
+            }
+            else {
+                console.log(datasets[i].datset_group)
+                console.log(datasets[i+1].datset_group[j])
+            }
+    }
+    //console.log(datasets[i])
+  } 
+  //console.log(datasets)
 }

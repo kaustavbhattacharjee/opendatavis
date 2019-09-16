@@ -41,7 +41,7 @@ Unionmaker(mydata){
       }
 return Array.from(mySet);
 }
-//----------------------------------------------------------------------------------------------------------Child_view based on clicked attributes
+//----------------------------------------------------------------------------Child_view based on clicked attributes
 child_view(){
   this.linedraw()
   this.keyhandler();
@@ -53,11 +53,19 @@ child_view(){
   var combinations2=algorithms.combinationgen2(index);
   var groups_to_vis=[];
 var grouped_datasets=algorithms.dataset_grouper(this.state.matrixdata.datasets,this.state.matrixdata.matrix,combinations2,);
+//grouped_datasets=grouped_datasets.map((d,i)=>{if (d[1].length>0) return d});
+//console.log(grouped_datasets)
 for(var j=0;j<grouped_datasets.length;j++){
+  var c=j+1;
+  if(grouped_datasets[j][1].length==0){
+    c=1;
+    j=j+1;
+  }
   if(grouped_datasets[j][1].length>0){
-  var a=  
+  //console.log("I and j are :",i,j)
+    var a=  
   <
-  HeatMap count={j+1} key={String(this.state.key)+j} gdatasets={grouped_datasets[j][1]} combinations={grouped_datasets[j][0]} 
+  HeatMap count={c} key={String(this.state.key)+j} gdatasets={grouped_datasets[j][1]} combinations={grouped_datasets[j][0]} 
   display='child' mypopup={this.togglePopup} clickedA={this.state.clickedA} clickhandler={this.attribute_click_handler} 
   datasets={this.state.matrixdata} commonA={this.state.unionmade}  
   />
@@ -70,6 +78,7 @@ for(var j=0;j<grouped_datasets.length;j++){
 //--Sort groups According To datasets 
 sort_by_dataset(){
   this.linedraw()
+  console.log(this.state.groups)
   var a=this.state.groups.sort(function (a, b) {
     return b.total_datasets - a.total_datasets;
   });
@@ -134,24 +143,22 @@ else{
   })
 }
   }
-//----------------------------------------------------- Class Adder
+// Class Adder
 classAdder = (id,class_name)=>{
 var element = document.getElementById(id);
 //element.style.fill = 'blue';
 element.classList.add(class_name);
 }
-//----------------------------------------------------- Class Remover
+// Class Remover
 classRemover = (id,class_name)=>{
   var element = document.getElementById(id);
   element.classList.remove(class_name);
   }  
-//----------------------------------------------------- togglePopup
 togglePopup(){
   this.setState({
     showPopup: !this.state.showPopup
   });
 }
-//---------------------------------------------------------------ComponentDidUpdate
 componentDidUpdate(prevState,prevProp){
   this.linedraw()
   return false;  
