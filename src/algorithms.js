@@ -214,11 +214,11 @@ export function subsetRemover(grouped_datasets){
             }
         }
 }
-//console.log(return_Array)
 duplicate_remover(return_Array)
 return return_Array;
 }
-export function duplicate_remover(array_dataset){
+export function duplicate_remover(array_dataset2){
+    var array_dataset=array_dataset2.slice()
   //console.log(array_dataset)
   //-------------sort the dataset group
   var datasets=[]
@@ -229,22 +229,24 @@ export function duplicate_remover(array_dataset){
   datasets.sort(function (a, b) {
     return b.group_length - a.group_length;
   });
-  //-------------loop through the array
+  //-------------loop through the array starts here
   for(var i=0;i<datasets.length-1;i++){
-        for(var j=0;j<datasets[i+1].group_length;j++){
-
-            if(datasets[i].datset_group.includes(datasets[i+1].datset_group[j])){
-                //console.log(datasets[i].datset_group,datasets[i+1].datset_group[j])
-                //console.log(datasets[i+1].datset_group[j])                
-                delete datasets[i+1].datset_group[j]
-
-            }
-            else {
-                console.log(datasets[i].datset_group)
-                console.log(datasets[i+1].datset_group[j])
+        for(var j=i+1;j<datasets.length;j++){
+            for(var k=0;k<datasets[j].group_length;k++){
+                if(datasets[i].datset_group.includes(datasets[j].datset_group[k])){ delete datasets[j].datset_group[k] }
             }
     }
-    //console.log(datasets[i])
-  } 
+    console.log(datasets)
+  }
+//-------------loop through the array ends here 
+/*
+for(var i=0;i<subsetRemovedArray.length;i++){
+    if(typeof subsetRemovedArray[i] !== 'undefined'){
+        if(subsetRemovedArray[i].length>0){
+            return_Array.push(subsetRemovedArray[i]);
+        }
+    }
+}
+*/
   //console.log(datasets)
 }

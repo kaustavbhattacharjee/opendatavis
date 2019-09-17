@@ -190,7 +190,7 @@ var svgs=$(".svgRectContainer"); var IdArray=[]; for(var i=0;i<svgs.length;i++){
     var y1 = $(s1c1).offset().top + ($(s1c1).height());
     var y2 = $(s2c1).offset().top;
     if($("."+myline).length==0){
-      $("#mySVG").clone().addClass(myline).addClass("mylines").insertBefore($("#mySVG").css({left:x1-2,top:y1+3,width:1,opacity:.8,height:y2-y1-5,backgroundColor:"rgb(158,154,200)"})); 
+      $("#mySVG").clone().addClass(myline).addClass("mylines").insertBefore($("#mySVG").css({left:x1-2,top:y1+3,width:2,opacity:.8,height:y2-y1-5,backgroundColor:"rgb(158,154,200)","z-index":1})); 
     }  
   }    
 }
