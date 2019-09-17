@@ -298,7 +298,7 @@ shouldComponentUpdate(nextProps, nextState){
 
 render() 
 {
-  console.log(this.props.count)
+  //console.log(this.props.count)
       return(
       <svg className="svgRectContainer" id={this.props.display=="main"? "svg0" :"svg"+this.props.count} ref={node => this.node = node}
       width={this.state.width} height={this.state.height}>
