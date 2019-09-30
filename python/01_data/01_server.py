@@ -51,7 +51,7 @@ def hello_world2():
             datasets_with_Attributes={}
             count=0;
             max=15;
-            for filename in glob.glob('*.csv'):
+            for filename in glob.glob('./upload/*.csv'):
                 count=count+1;
                 if(count<max):
                     df = pd.read_csv(filename);

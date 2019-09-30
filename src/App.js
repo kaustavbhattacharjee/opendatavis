@@ -3,8 +3,9 @@ import './App.css';
 import HeatMap from './HeatMap';
 import Popup from './Popup';
 import $ from "jquery"
+import axios from 'axios';
 import * as algorithms from './algorithms';
-//import * as d3 from 'd3'
+import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input } from 'reactstrap';
 class App extends Component {
   constructor(props) {
   super(props);
@@ -21,6 +22,8 @@ class App extends Component {
     mydata2: {},
     popupdata:"",
     popupdata2:"",
+    file:{},
+    modal: false,
   }
  this.child_view=this.child_view.bind(this);
  this.sort_by_dataset=this.sort_by_dataset.bind(this);
@@ -30,6 +33,7 @@ class App extends Component {
  this.linedraw.bind=this.linedraw;
  this.matrixgenerator.bind=this.matrixgenerator;
  this.jsonHandler = this.jsonHandler.bind(this);
+ this.toggle = this.toggle.bind(this);
 };
 //----------------------------------------------------Union Maker
 Unionmaker(mydata){
@@ -43,7 +47,7 @@ return Array.from(mySet);
 }
 //----------------------------------------------------------------------------Child_view based on clicked attributes
 child_view(){
-  this.linedraw()
+  //this.linedraw()
   this.keyhandler();
   var mySet=new Set();
   for(var i=0;i<this.state.clickedA.length;i++){
@@ -77,7 +81,7 @@ for(var j=0;j<grouped_datasets.length;j++){
 }
 //--Sort groups According To datasets 
 sort_by_dataset(){
-  this.linedraw()
+  //this.linedraw()
   console.log(this.state.groups)
   var a=this.state.groups.sort(function (a, b) {
     return b.total_datasets - a.total_datasets;
@@ -160,7 +164,7 @@ togglePopup(){
   });
 }
 componentDidUpdate(prevState,prevProp){
-  this.linedraw()
+  //this.linedraw()
   return false;  
 }
 //---------------------------------------------------------------Line draw function starts here
@@ -215,7 +219,7 @@ if($("."+myline).length==0){
 //------------------------------------------------------------- Json Handler starts Here
 jsonHandler(){
 const self=this;
-var url = "http://127.0.0.1:5000/json";
+var url = "http://ec2-3-19-55-145.us-east-2.compute.amazonaws.com:5000/json";
 var data = {myrequest: 'data'};
 fetch(url, {
   method: 'POST', 
@@ -233,27 +237,95 @@ fetch(url, {
 }
 //-----------------------------------------------------ComponentDidmount
 componentDidMount(){
-  this.jsonHandler();
+  //this.jsonHandler();
 }
 matrixgenerator(){
   var matrixdata=algorithms.matrixgen(this.state.unionmade,this.state.mydata2);
   this.setState({matrixdata:matrixdata})
 }
-
+toggle() {
+  this.setState(prevState => ({
+    modal: !prevState.modal
+  }));
+}
+//-----------------------------------------------------------------Upload Files
+handleFile=(e)=>{
+  let file=e.target.files
+  this.setState({file:file})
+}
+handleUpload=(e)=>{
+  let file=this.state.file;
+  let formdata=new FormData()
+  for (var key in this.state.file) {
+  formdata.append('file',this.state.file[key])
+  }
+  axios({
+    url:'http://ec2-3-19-55-145.us-east-2.compute.amazonaws.com:5000/uploader',
+    //url:'http://localhost:5000/uploader',
+    method:"POST",
+    headers:{
+    authorizition:'Hello'
+    },
+    data:formdata
+  }).then((respose_from_server)=>{
+  // then is the response
+    console.log(respose_from_server.data)
+  },(err)=>{
+    console.log(err)
+  })
+}
 //-----------------------------------------------------------------Render function starts here  
 render() {
   if(Object.keys(this.state.matrixdata).length>0){
   }
-    return (
-     <div className="container-fluid">
-        <div className="row">
-              <div className="col-3">
-              <button onClick={this.sort_by_dataset} className="btn  btn-outline-secondary">Sort by datasets</button>
-              <button onClick={this.sort_by_attributes} className="btn  btn-outline-secondary">Sort by attributes</button>
-              <button onClick={this.jsonHandler} className="btn  btn-outline-secondary">Process data</button>
-              </div>
-              <div className="matrix col-9">
-              
+  return (
+    <div>
+{ /* Navbar starts here */ }
+        <Navbar color="faded" light expand="sm">
+          <NavbarBrand href="/">UrbanForest</NavbarBrand>
+          <NavbarToggler/>
+          <Collapse navbar>
+            <Nav className="ml-auto" navbar>
+            <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  Sort by
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem onClick={this.sort_by_attributes}>
+                    Atribute
+                  </DropdownItem>
+                  <DropdownItem onClick={this.sort_by_dataset}>
+                    Datasets
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <NavItem>
+                <NavLink>Components</NavLink>
+              </NavItem>
+              <NavItem>
+              <NavLink onClick={this.toggle}>Modal view</NavLink>
+              </NavItem>
+              <NavItem>
+                <Button color="primary" size="md" onClick={this.jsonHandler}>Process</Button>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+{ /* File Upload (first column starts here) */ }
+        <Row>
+          <Col md="2" style={{padding:1}}>
+          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
+            <FormGroup action = "http://localhost:5000/uploader" method = "POST" className="formclass">
+              <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
+              <label htmlFor="fileupload"></label>
+              <Button color="secondary" size="sm" onClick={(e)=>this.handleUpload(e)}>Upload</Button>
+            </FormGroup>
+          </div>
+          </Col>
+{ /* Main view starts here */ }
+          <Col md="10" style={{padding:1}}>
+          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
+          <div>
               {
                   (Object.keys(this.state.matrixdata).length>0)?<HeatMap key={'key1'} gdatasets={[]} display='main' clickhandler={this.attribute_click_handler} datasets={this.state.matrixdata} commonA={this.state.unionmade} />:"NA"
               }
@@ -263,7 +335,6 @@ render() {
                   else{$("#"+"mySVG").hide();}
                 })  
               }
-              </div>
         </div>      
       { // pop up window starts here
         this.state.showPopup ? 
@@ -277,6 +348,26 @@ render() {
        }
       <div id="mySVG">
       </div>
+          </div>
+          </Col>
+        </Row>
+{ /* Modal starts here */ }
+        <Modal isOpen={this.state.modal} toggle={this.toggle} backdrop={this.state.backdrop} size="xl" style={{maxWidth: '1600px', width: '90%'}}>
+          <ModalHeader toggle={this.toggle}>Modal Title</ModalHeader>
+          <ModalBody>
+          <Row>
+          <Col md="2" style={{padding:1}}>
+          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"400px"}}></div>
+          </Col>
+          <Col md="10" style={{padding:1}}>
+          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"400px"}}>
+          </div>
+          </Col>
+        </Row>
+          </ModalBody>
+        </Modal>
+{ /* Modal ends here */ }
+ 
     </div>
     );
   }
