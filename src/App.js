@@ -269,7 +269,8 @@ handleUpload=(e)=>{
     data:formdata
   }).then((respose_from_server)=>{
   // then is the response
-    console.log(respose_from_server.data)
+  alert("Uploaded successfull")  
+  console.log(respose_from_server.data)
   },(err)=>{
     console.log(err)
   })
