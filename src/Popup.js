@@ -14,7 +14,7 @@ this.creatdis = this.creatdis.bind(this);
   }
   jsonHandler2(){
     const self=this;
-    var url = "http://127.0.0.1:5000/json2";
+    var url = "http://ec2-18-217-239-9.us-east-2.compute.amazonaws.com:5000/json2";
     var data = {datasets: this.props.data};
     //console.log(data)
     fetch(url, {

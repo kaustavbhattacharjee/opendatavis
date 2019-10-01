@@ -11,9 +11,7 @@ export function test(d){
 return d;
 }
 export function matrixgen(attributes_from_union,datasets_in_dictionary){
-    //console.log(datasets_in_dictionary)
 var datasets=[];
-//var size=Object.keys(datasets_in_dictionary).length;
 var matrix=new Array(Object.keys(datasets_in_dictionary).length);
 var count=0;
 for (var combinations_key in datasets_in_dictionary){
@@ -22,7 +20,6 @@ for (var combinations_key in datasets_in_dictionary){
     for(var combination_index=0;combination_index<attributes_from_union.length;combination_index++){
         for(var j=0;j<datasets_in_dictionary[combinations_key].length;j++){
             if(attributes_from_union[combination_index]==datasets_in_dictionary[combinations_key][j]){
-           //console.log(matrix[count]);
             matrix[count][combination_index]=1;
         }
         else{
@@ -36,8 +33,6 @@ count++;
 }
 return {'datasets':datasets,'matrix':matrix}
 }
-//console.log(matrixgen(attributes_from_union,datasets_in_dictionary)['datasets'])
-//console.log(datasets,matrix);
 //------------------------------------------------------------------------------------------------------  Combination generator2 starts here
 export function combinationgen2(array){
     var combdict=[];
@@ -214,7 +209,8 @@ export function subsetRemover(grouped_datasets){
             }
         }
 }
-duplicate_remover(return_Array)
+//return duplicate_remover(return_Array)
+console.log(return_Array)
 return return_Array;
 }
 export function duplicate_remover(array_dataset2){
@@ -236,7 +232,27 @@ export function duplicate_remover(array_dataset2){
                 if(datasets[i].datset_group.includes(datasets[j].datset_group[k])){ delete datasets[j].datset_group[k] }
             }
     }
-    console.log(datasets)
+//console.log(datasets)
 }
-
+var final_datasets=[]
+for(var i=0;i<datasets.length;i++){
+    var temp={}
+    var temp_datset_group=[];
+    datasets[i]["datset_group"].forEach(function(item){
+        if (item === undefined) {
+            //console.log(datasets[i]["datset_group"])   
+        }
+        else{
+            temp_datset_group.push(item)
+        }
+      });
+    temp["attr"]=datasets[i]["attr"];
+    temp["group_length"]=temp_datset_group.length;
+    temp["datset_group"]=temp_datset_group;
+    if(temp_datset_group.length>0){
+        final_datasets.push(temp)
+    }
+    
+}
+return final_datasets;
 }
