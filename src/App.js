@@ -301,12 +301,6 @@ render() {
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-                <NavLink>Components</NavLink>
-              </NavItem>
-              <NavItem>
-              <NavLink onClick={this.toggle}>Modal view</NavLink>
-              </NavItem>
-              <NavItem>
                 <Button color="primary" size="md" onClick={this.jsonHandler}>Process</Button>
               </NavItem>
             </Nav>
