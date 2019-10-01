@@ -219,7 +219,7 @@ if($("."+myline).length==0){
 //------------------------------------------------------------- Json Handler starts Here
 jsonHandler(){
 const self=this;
-var url = "http://ec2-3-19-55-145.us-east-2.compute.amazonaws.com:5000/json";
+var url = "http://ec2-18-217-239-9.us-east-2.compute.amazonaws.com:5000/json";
 var data = {myrequest: 'data'};
 fetch(url, {
   method: 'POST', 
@@ -260,7 +260,7 @@ handleUpload=(e)=>{
   formdata.append('file',this.state.file[key])
   }
   axios({
-    url:'http://ec2-3-19-55-145.us-east-2.compute.amazonaws.com:5000/uploader',
+    url:'http://ec2-18-217-239-9.us-east-2.compute.amazonaws.com:5000/uploader',
     //url:'http://localhost:5000/uploader',
     method:"POST",
     headers:{
@@ -323,8 +323,8 @@ render() {
           </div>
           </Col>
 { /* Main view starts here */ }
-          <Col md="10" style={{padding:1}}>
-          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
+          <Col md="10" style={{backgroundColor:"rgb(224,224,224,.3)",padding:1,overflow:"scroll"}}>
+          <div style={{width:"100%",height:"700px"}}>
           <div>
               {
                   (Object.keys(this.state.matrixdata).length>0)?<HeatMap key={'key1'} gdatasets={[]} display='main' clickhandler={this.attribute_click_handler} datasets={this.state.matrixdata} commonA={this.state.unionmade} />:"NA"
@@ -336,7 +336,7 @@ render() {
                 })  
               }
         </div>      
-      { // pop up window starts here
+{ // pop up window starts here
         this.state.showPopup ? 
           <Popup
             data={this.state.popupdata2}
