@@ -206,7 +206,7 @@ export function subsetRemover(grouped_datasets){
             }
         }
     } 
-    }
+}
     for(var i=0;i<subsetRemovedArray.length;i++){
         if(typeof subsetRemovedArray[i] !== 'undefined'){
             if(subsetRemovedArray[i].length>0){
@@ -219,8 +219,8 @@ return return_Array;
 }
 export function duplicate_remover(array_dataset2){
     var array_dataset=array_dataset2.slice()
-  //console.log(array_dataset)
-  //-------------sort the dataset group
+//console.log(array_dataset)
+//-------------sort the dataset group
   var datasets=[]
   for(var i=0;i<array_dataset.length;i++){
     var tempobj={"attr":array_dataset[i][0],"datset_group":array_dataset[i][1],"group_length":array_dataset[i][1].length}
@@ -237,16 +237,6 @@ export function duplicate_remover(array_dataset2){
             }
     }
     console.log(datasets)
-  }
-//-------------loop through the array ends here 
-/*
-for(var i=0;i<subsetRemovedArray.length;i++){
-    if(typeof subsetRemovedArray[i] !== 'undefined'){
-        if(subsetRemovedArray[i].length>0){
-            return_Array.push(subsetRemovedArray[i]);
-        }
-    }
 }
-*/
-  //console.log(datasets)
+
 }
