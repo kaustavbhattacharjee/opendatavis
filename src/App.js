@@ -327,7 +327,7 @@ render() {
           <div style={{width:"100%",height:"700px"}}>
           <div>
               {
-                  (Object.keys(this.state.matrixdata).length>0)?<HeatMap key={'key1'} gdatasets={[]} display='main' clickhandler={this.attribute_click_handler} datasets={this.state.matrixdata} commonA={this.state.unionmade} />:"NA"
+                  (Object.keys(this.state.matrixdata).length>0)?<HeatMap key={'key1'} gdatasets={[]} display='main' clickhandler={this.attribute_click_handler} datasets={this.state.matrixdata} commonA={this.state.unionmade} />:"Click process to display matrix"
               }
               { 
                 this.state.groups.map( (d,i)=> {
