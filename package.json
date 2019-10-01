@@ -2,7 +2,7 @@
   "name": "reorderablemat",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://akm-islam.github.io/reorderable_matrix/",
+  "homepage":"https://akm-islam.github.io/opendatavis/",
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
