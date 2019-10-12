@@ -254,9 +254,15 @@ handleFile=(e)=>{
   this.setState({file:file})
 }
 handleUpload=(e)=>{
+  var x = document.getElementById("fileupload");
+  if ('files' in x) {
+      console.log(x.files.length);
+    }
   let file=this.state.file;
   let formdata=new FormData()
   for (var key in this.state.file) {
+    console.log(key)
+    console.log(this.state.file[key].name)
   formdata.append('file',this.state.file[key])
   }
   axios({
@@ -277,12 +283,13 @@ handleUpload=(e)=>{
 }
 //-----------------------------------------------------------------Render function starts here  
 render() {
+  //console.log(this.state.file)
   if(Object.keys(this.state.matrixdata).length>0){
   }
   return (
     <div>
 { /* Navbar starts here */ }
-        <Navbar color="faded" light expand="sm">
+    <Navbar style={{backgroundColor:"rgb(224,224,224,.3)"}} expand="sm" >
           <NavbarBrand href="/">UrbanForest</NavbarBrand>
           <NavbarToggler/>
           <Collapse navbar>
@@ -305,21 +312,19 @@ render() {
               </NavItem>
             </Nav>
           </Collapse>
-        </Navbar>
+    </Navbar>
 { /* File Upload (first column starts here) */ }
-        <Row>
-          <Col md="2" style={{padding:1}}>
+    <Row className="row1">
+        <Col md="2" style={{padding:0}} className="upload">
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
-            <FormGroup action = "http://localhost:5000/uploader" method = "POST" className="formclass">
+            <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
-              <label htmlFor="fileupload"></label>
-              <Button color="secondary" size="sm" onClick={(e)=>this.handleUpload(e)}>Upload</Button>
+              <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
             </FormGroup>
           </div>
-          </Col>
+        </Col>
 { /* Main view starts here */ }
-          <Col md="10" style={{backgroundColor:"rgb(224,224,224,.3)",padding:1,overflow:"scroll"}}>
-          <div style={{width:"100%",height:"700px"}}>
+      <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}>
           <div>
               {
                   (Object.keys(this.state.matrixdata).length>0)?<HeatMap key={'key1'} gdatasets={[]} display='main' clickhandler={this.attribute_click_handler} datasets={this.state.matrixdata} commonA={this.state.unionmade} />:"Click process to display matrix"
@@ -341,10 +346,9 @@ render() {
           : null
        //pop up window ends here
        }
-      <div id="mySVG">
-      </div>
-          </div>
-          </Col>
+{ /* div for line starts here */ }      
+      <div id="mySVG"></div>
+      </Col>
         </Row>
 { /* Modal starts here */ }
         <Modal isOpen={this.state.modal} toggle={this.toggle} backdrop={this.state.backdrop} size="xl" style={{maxWidth: '1600px', width: '90%'}}>

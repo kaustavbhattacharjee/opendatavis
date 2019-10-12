@@ -2,7 +2,7 @@
   "name": "reorderablemat",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://akm-islam.github.io/opendatavis/",
+  "homepage": "https://akm-islam.github.io/opendatavis/",
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
@@ -18,8 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
