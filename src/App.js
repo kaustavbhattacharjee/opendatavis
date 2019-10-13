@@ -5,7 +5,7 @@ import Popup from './Popup';
 import $ from "jquery"
 import axios from 'axios';
 import * as algorithms from './algorithms';
-import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input } from 'reactstrap';
+import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input,Label,Form,FormText} from 'reactstrap';
 class App extends Component {
   constructor(props) {
   super(props);
@@ -24,6 +24,7 @@ class App extends Component {
     popupdata2:"",
     file:{},
     modal: false,
+    uploaded_filenames:[],
   }
  this.child_view=this.child_view.bind(this);
  this.sort_by_dataset=this.sort_by_dataset.bind(this);
@@ -252,17 +253,21 @@ toggle() {
 handleFile=(e)=>{
   let file=e.target.files
   this.setState({file:file})
+  var filename_array=[];
+  var x = document.getElementById("fileupload");
+    for (var i = 0; i < x.files.length; i++) {
+      var myfile = x.files[i];
+      if ('name' in myfile) {
+        filename_array.push(myfile.name)
+      }
+    }
+    this.setState({uploaded_filenames:filename_array})
+    //console.log(filename_array);
 }
 handleUpload=(e)=>{
-  var x = document.getElementById("fileupload");
-  if ('files' in x) {
-      console.log(x.files.length);
-    }
   let file=this.state.file;
   let formdata=new FormData()
   for (var key in this.state.file) {
-    console.log(key)
-    console.log(this.state.file[key].name)
   formdata.append('file',this.state.file[key])
   }
   axios({
@@ -315,14 +320,35 @@ render() {
     </Navbar>
 { /* File Upload (first column starts here) */ }
     <Row className="row1">
-        <Col md="2" style={{padding:0}} className="upload">
+        <Col md="2" style={{padding:0}} className="upload" >
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
               <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
             </FormGroup>
-          </div>
-        </Col>
+{ /* File list starts here */ }     
+          <div>     
+          {this.state.uploaded_filenames.length>0 ? 
+            <Form>
+            <FormGroup check className="formclass">
+              <Label check>
+              <Input type="checkbox" />{' '}
+                Check me out
+              </Label>
+            </FormGroup>
+            <FormGroup check className="formclass">
+              <Label check>
+              <Input type="checkbox" />{' '}
+                Check me out2
+              </Label>
+            </FormGroup>
+            <Button className="buttonclass" color="info" size="sm" block onClick={this.jsonHandler}>Process</Button>
+            </Form>
+                : null
+            }
+                </div>
+                </div>
+      </Col>
 { /* Main view starts here */ }
       <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}>
           <div>
