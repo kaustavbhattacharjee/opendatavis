@@ -16,20 +16,45 @@ class HeatMap extends Component {
    }
    componentWillMount(){
     var multiplier=18; // multiplier defines the cell size
+//----------Main display
     if(this.props.display=='main'){
-      this.setState({width:this.props.commonA.length*multiplier + 420})
+      if(this.props.commonA.length<15){
+        console.log("less than 10")
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+      else{
+        console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 420})
+      }
+
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.datasets.datasets.length*multiplier + 120})
       this.setState({dataset_length: this.props.datasets.datasets.length});
     }
+//----------
     else if(this.props.count==1){
-      this.setState({width:this.props.commonA.length*multiplier + 420})
+      if(this.props.commonA.length<15){
+        console.log("Child is with count==1")
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+      else{
+        console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 420})
+      }
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.gdatasets.length*multiplier + 120})
       this.setState({dataset_length: this.props.gdatasets.length});
     }
+//----------child display
     else if(this.props.display=='child' && this.props.count!=1){
-      this.setState({width:this.props.commonA.length*multiplier + 420})
+      if(this.props.commonA.length<15){
+        console.log("Child is with count!=1")
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+      else{
+        console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 420})
+      }
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.gdatasets.length*multiplier + 10})
       this.setState({dataset_length: this.props.gdatasets.length});
