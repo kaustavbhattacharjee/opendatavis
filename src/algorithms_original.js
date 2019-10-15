@@ -31,73 +31,7 @@ for (var combinations_key in datasets_in_dictionary){
 }
 count++;
 }
-/* This is how the matrix looks like
-0: (6) [1, 1, 1, "n", "n", "n"]
-1: (6) [1, 1, 1, "n", "n", "n"]
-2: (6) [1, 1, 1, "n", "n", "n"]
-3: (6) [1, "n", 1, "n", 1, "n"]
-4: (6) [1, "n", 1, "n", 1, "n"]
-5: (6) [1, "n", 1, "n", 1, "n"]
-6: (6) [1, 1, "n", 1, "n", "n"]
-7: (6) [1, 1, "n", 1, "n", "n"]
-8: (6) [1, 1, "n", 1, "n", "n"]
-9: (6) ["n", 1, "n", 1, "n", 1]
-1: (6) ["n", 1, "n", 1, "n", 1]
-1: (6) ["n", 1, "n", 1, "n", 1]
-*/
-//console.log(matrix)
 return {'datasets':datasets,'matrix':matrix}
-}
-//------------------------------------------------------------------------------------------------------ Second Matrix generator starts here
-export function second_matrix_with_datasets(datasets,matrix){
-    //console.log("From secondMatrix",matrix)
-    var mymatrix=matrix.slice();
-    // The parameters are dataset array and matrix array.
-    var newMatrix=[datasets,mymatrix];
-    var len=newMatrix[1][1].length;
-    for(var i=0;i<newMatrix[0].length;i++){
-        for(var j=0;j<len;j++){
-            if(newMatrix[1][i][j]==1){
-                newMatrix[1][i][j]=j;
-            }
-/*
-            else{
-                if(newMatrix[1][i][j]=='00'){
-                    newMatrix[1][i][j]='n';
-                }                
-            }
-*/
-        }
-    }
-return newMatrix;
-// returns 2D array where the second array contains the matrix and the first array contains datasets
-/*
-0: "./upload/01_d1"
-1: "./upload/02_d11"
-2: "./upload/03_d111"
-3: "./upload/04_d2"
-4: "./upload/05_d22"
-5: "./upload/06_d222"
-6: "./upload/07_d3"
-7: "./upload/08_d33"
-8: "./upload/09_d333"
-9: "./upload/10_d4"
-10: "./upload/11_d44"
-11: "./upload/12_d444"
--------------------------------
-0: (6) [0, 1, 2, "n", "n", "n"]
-1: (6) [0, 1, 2, "n", "n", "n"]
-2: (6) [0, 1, 2, "n", "n", "n"]
-3: (6) [0, "n", 2, "n", 4, "n"]
-4: (6) [0, "n", 2, "n", 4, "n"]
-5: (6) [0, "n", 2, "n", 4, "n"]
-6: (6) [0, 1, "n", 3, "n", "n"]
-7: (6) [0, 1, "n", 3, "n", "n"]
-8: (6) [0, 1, "n", 3, "n", "n"]
-9: (6) ["n", 1, "n", 3, "n", 5]
-1: (6) ["n", 1, "n", 3, "n", 5]
-1: (6) ["n", 1, "n", 3, "n", 5]
-*/
 }
 //------------------------------------------------------------------------------------------------------  Combination generator2 starts here
 export function combinationgen2(array){
@@ -118,16 +52,30 @@ export function combinationgen2(array){
          }
      }
      return combdict;
-/* This is generated for the item selected at index 0,2,5; 2^3-1=7 combinations
-0: (3) [0, 2, 5]
-1: (2) [0, 2]
-2: (2) [0, 5]
-3: [0]
-4: (2) [2, 5]
-5: [2]
-6: [5]
-*/
+     }
+
+//------------------------------------------------------------------------------------------------------  Combination generator starts here
+export function combinationgen(array){
+   var combdict=[];
+    function fork(i, t) {
+        if (i === array.length) {
+            result.push(t);
+            return;
+        }
+        fork(i + 1, t.concat([array[i]]));
+        fork(i + 1, t);
     }
+    var result = [];
+    fork(0, []);
+    for(var i=0;i<result.length;i++){
+        if(result[i].length>0){
+            combdict.push({[result[i].length]:result[i]})
+        }
+    }
+    return combdict;
+    }
+//console.log('Combination Generator has generated : ',combinationgen([0,2])) 
+//console.log(combinationgen([4,5,0]))
 //------------------------------------------------------------------------------------------------------ Comobination matched starts here
 export function combination_matched(matrix,datasets,combination){
     var combinations_with_mathced_datasets=[];
@@ -150,10 +98,9 @@ export function combination_matched(matrix,datasets,combination){
             }
         }
     }
-console.log(combinations_with_mathced_datasets)
 return combinations_with_mathced_datasets;      
 }
-//var combination=combinationgen2([0,1,2]);
+//var combination=combinationgen([0,1,2]);
 //var matrixgen=matrixgen(attributes_from_union,datasets_in_dictionary);
 //console.log(combination_matched(matrixgen['matrix'],matrixgen['datasets']),combination);
 //------------------------------------------------------------------------------------------------------ Dataset grouping_based_on_combination starts here
@@ -180,8 +127,31 @@ export function grouping_based_on_combination(combinations,combinationmatched){
         //console.log(arr_group)
     return arr_group;
     }
-//--Function to check if an array contains another array
-// This function is used only by Datasetgrouper and subset remover
+//------------------------------------------------------------------------------------------------------ Second Matrix generator starts here
+export function second_matrix_with_datasets(datasets,matrix){
+    //console.log("From secondMatrix",matrix)
+    var mymatrix=matrix.slice();
+    // The parameters are dataset array and matrix array.
+    var newMatrix=[datasets,mymatrix];
+    var len=newMatrix[1][1].length;
+    for(var i=0;i<newMatrix[0].length;i++){
+        for(var j=0;j<len;j++){
+            if(newMatrix[1][i][j]==1){
+                newMatrix[1][i][j]=j;
+            }
+/*
+            else{
+                if(newMatrix[1][i][j]=='00'){
+                    newMatrix[1][i][j]='n';
+                }                
+            }
+*/
+        }
+    }
+return newMatrix;
+// returns 2D array where the second array contains the matrix and the first one datasets
+}
+//------------------------------------------------------------------------------------------------------ Function to check if an array contains another array
 export function arrayContainsArray (superset, subset) {
     if (0 === subset.length) {
       return false;
@@ -210,17 +180,10 @@ export function dataset_grouper(datasets,matrix,combinations){
         return_Array[count]=arr;
         count++;
     }
-    //console.log(return_Array);
-    //return return_Array;
    return subsetRemover(return_Array);
 }
 //------------------------------------------------------------------------------------------------------ subsetRemover
 export function subsetRemover(grouped_datasets){
-/* grouped data set is in the following format where first index contains the attribute index and second index contains datasets
-0: (2) [Array(2), Array(6)]
-1: (2) [Array(1), Array(9)]
-2: (2) [Array(1), Array(6)]
-*/
     var subsetRemovedArray = grouped_datasets;
     var return_Array=[];
     var len=subsetRemovedArray.length;
@@ -246,43 +209,50 @@ export function subsetRemover(grouped_datasets){
             }
         }
 }
-return duplicate_remover(return_Array)
-//console.log(return_Array)
-//return return_Array;
+//return duplicate_remover(return_Array)
+console.log(return_Array)
+return return_Array;
 }
-//------------------------------------------------------------------------------------------------------ Duplicate remover start here
 export function duplicate_remover(array_dataset2){
-var array_dataset=array_dataset2;
-/* array index 0 is not important here; Index 1 contains datasets; check them and make two unique groups;
-0: (2) [Array(1), Array(9)]
-1: (2) [Array(1), Array(9)]
-*/
-var arr=[]
-// Convert javascript Array to Object
-for(var i=0;i<array_dataset2.length;i++){
-    arr.push(Object.assign({}, array_dataset2[i][1]));
-    //console.log(array_dataset2[i][1])
-}
-// Iterate and delete duplicate values
-for(var i=0;i<arr.length-1;i++){
-    for (let [key1, value1] of Object.entries(arr[i])) {
-        for (let [key2, value2] of Object.entries(arr[i+1])) {
-            if(value1===value2){
-                delete arr[i+1][key2];
-            }
-        }
-    }
-}
-// Convert javascript object to an Array
-var return_Array=[];
-for(var i=0;i<arr.length;i++){
-    var result = Object.keys(arr[i]).map(function(key) {
-        return arr[i][key];
-    });
-    array_dataset[i][1]=result;
-    console.log(result)
-}
+    var array_dataset=array_dataset2.slice()
 //console.log(array_dataset)
-return array_dataset;
-
+//-------------sort the dataset group
+  var datasets=[]
+  for(var i=0;i<array_dataset.length;i++){
+    var tempobj={"attr":array_dataset[i][0],"datset_group":array_dataset[i][1],"group_length":array_dataset[i][1].length}
+    datasets.push(tempobj)
+  } 
+  datasets.sort(function (a, b) {
+    return b.group_length - a.group_length;
+  });
+  //-------------loop through the array starts here
+  for(var i=0;i<datasets.length-1;i++){
+        for(var j=i+1;j<datasets.length;j++){
+            for(var k=0;k<datasets[j].group_length;k++){
+                if(datasets[i].datset_group.includes(datasets[j].datset_group[k])){ delete datasets[j].datset_group[k] }
+            }
+    }
+//console.log(datasets)
+}
+var final_datasets=[]
+for(var i=0;i<datasets.length;i++){
+    var temp={}
+    var temp_datset_group=[];
+    datasets[i]["datset_group"].forEach(function(item){
+        if (item === undefined) {
+            //console.log(datasets[i]["datset_group"])   
+        }
+        else{
+            temp_datset_group.push(item)
+        }
+      });
+    temp["attr"]=datasets[i]["attr"];
+    temp["group_length"]=temp_datset_group.length;
+    temp["datset_group"]=temp_datset_group;
+    if(temp_datset_group.length>0){
+        final_datasets.push(temp)
+    }
+    
+}
+return final_datasets;
 }

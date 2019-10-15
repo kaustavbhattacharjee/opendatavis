@@ -19,7 +19,7 @@ class HeatMap extends Component {
 //----------Main display
     if(this.props.display=='main'){
       if(this.props.commonA.length<15){
-        console.log("less than 10")
+        //console.log("less than 10")
         this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       else{
@@ -34,7 +34,7 @@ class HeatMap extends Component {
 //----------
     else if(this.props.count==1){
       if(this.props.commonA.length<15){
-        console.log("Child is with count==1")
+        //console.log("Child is with count==1")
         this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       else{
@@ -48,7 +48,7 @@ class HeatMap extends Component {
 //----------child display
     else if(this.props.display=='child' && this.props.count!=1){
       if(this.props.commonA.length<15){
-        console.log("Child is with count!=1")
+        //console.log("Child is with count!=1")
         this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       else{
@@ -106,10 +106,10 @@ prep2(mydata,commonA,gdatasets){
    createHeatMap() {
     const node = this.node
     if(this.props.display=='main' || this.props.count==1){
-      var margin = {top: 100, right: 40, bottom: 20, left: 480};
+      var margin = {top: 100, right: 40, bottom: 20, left: 80};
     }
     else{
-      var margin = {top: 5, right: 40, bottom: 5, left: 480};
+      var margin = {top: 5, right: 40, bottom: 5, left: 80};
     }
     var width = this.state.width - margin.right - margin.left,
     height = this.state.height - margin.top - margin.bottom;
@@ -325,9 +325,12 @@ render()
 {
   //console.log(this.props.count)
       return(
+      <div style={{display:'block'}}>
       <svg className="svgRectContainer" id={this.props.display=="main"? "svg0" :"svg"+this.props.count} ref={node => this.node = node}
       width={this.state.width} height={this.state.height}>
       </svg> 
+      </div>
+      
     )
 }
 }
