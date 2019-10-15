@@ -252,7 +252,8 @@ return duplicate_remover(return_Array)
 }
 //------------------------------------------------------------------------------------------------------ Duplicate remover start here
 export function duplicate_remover(array_dataset2){
-var array_dataset=array_dataset2;
+//console.log(array_dataset2)
+var array_dataset=[];
 /* array index 0 is not important here; Index 1 contains datasets; check them and make two unique groups;
 0: (2) [Array(1), Array(9)]
 1: (2) [Array(1), Array(9)]
@@ -263,12 +264,27 @@ for(var i=0;i<array_dataset2.length;i++){
     arr.push(Object.assign({}, array_dataset2[i][1]));
     //console.log(array_dataset2[i][1])
 }
-// Iterate and delete duplicate values
+//------------- iterate and delete duplicates
+/*
+one loop loops through the first object container and then another loop loops ever object from the beginning to the end but skips itself(i!=j)
+*/
 for(var i=0;i<arr.length-1;i++){
-    for (let [key1, value1] of Object.entries(arr[i])) {
-        for (let [key2, value2] of Object.entries(arr[i+1])) {
-            if(value1===value2){
-                delete arr[i+1][key2];
+        for (var key1 in arr[i]) {
+            if (arr[i].hasOwnProperty(key1)) {
+                for(var j=0;j<arr.length;j++){
+                    if(i!=j){
+                            for (var key2 in arr[j]) {
+                                if (arr[j].hasOwnProperty(key2)) {
+                                    if(arr[i][key1]==arr[j][key2]){
+                                    //console.log(arr[i+1][key2])
+                                    delete arr[j][key2];
+                                }
+                                else{
+                                    //console.log(arr[i][key1],key1,arr[j][key2],key2)
+                                }
+                            }
+                        }
+                }
             }
         }
     }
@@ -279,10 +295,14 @@ for(var i=0;i<arr.length;i++){
     var result = Object.keys(arr[i]).map(function(key) {
         return arr[i][key];
     });
-    array_dataset[i][1]=result;
-    console.log(result)
+    if(result.length!=0){
+        array_dataset.push(result);
+    }
+    else{
+        console.log("Zero...",result)  
+    }
 }
-//console.log(array_dataset)
+console.log(array_dataset)
 return array_dataset;
 
 }

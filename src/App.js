@@ -58,25 +58,17 @@ child_view(){
   var combinations2=algorithms.combinationgen2(index);
   var groups_to_vis=[];
 var grouped_datasets=algorithms.dataset_grouper(this.state.matrixdata.datasets,this.state.matrixdata.matrix,combinations2,);
-//grouped_datasets=grouped_datasets.map((d,i)=>{if (d[1].length>0) return d});
-//console.log(grouped_datasets)
+console.log(grouped_datasets)
+// Loop through each group and create the heat map
 for(var j=0;j<grouped_datasets.length;j++){
-  var c=j+1;
-  if(grouped_datasets[j][1].length==0){
-    c=1;
-    j=j+1;
-  }
-  if(grouped_datasets[j][1].length>0){
-  //console.log("I and j are :",i,j)
-    var a=  
+var c=j+1;
+var a=  
   <
-  HeatMap count={c} key={String(this.state.key)+j} gdatasets={grouped_datasets[j][1]} combinations={grouped_datasets[j][0]} 
+  HeatMap count={c} key={String(this.state.key)+j} gdatasets={grouped_datasets[j]} combinations={[0,1]} 
   display='child' mypopup={this.togglePopup} clickedA={this.state.clickedA} clickhandler={this.attribute_click_handler} 
   datasets={this.state.matrixdata} commonA={this.state.unionmade}  
   />
-
-  groups_to_vis.push({'item':a,'totalatt':grouped_datasets[j][0].length,'total_datasets':grouped_datasets[j][1].length});
-  }
+  groups_to_vis.push({'item':a,'totalatt':5,'total_datasets':grouped_datasets[j].length});
   this.setState({groups:groups_to_vis});
 }
 }

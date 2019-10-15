@@ -24,7 +24,7 @@ class HeatMap extends Component {
       }
       else{
         console.log(this.props.commonA.length)
-        this.setState({width:this.props.commonA.length*multiplier + 420})
+        this.setState({width:this.props.commonA.length*multiplier + 620})
       }
 
       this.setState({attribute_length: this.props.commonA.length});
@@ -38,8 +38,8 @@ class HeatMap extends Component {
         this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       else{
-        console.log(this.props.commonA.length)
-        this.setState({width:this.props.commonA.length*multiplier + 420})
+        //console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.gdatasets.length*multiplier + 120})
@@ -52,8 +52,8 @@ class HeatMap extends Component {
         this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       else{
-        console.log(this.props.commonA.length)
-        this.setState({width:this.props.commonA.length*multiplier + 420})
+        //console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 620})
       }
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.gdatasets.length*multiplier + 10})
@@ -106,10 +106,10 @@ prep2(mydata,commonA,gdatasets){
    createHeatMap() {
     const node = this.node
     if(this.props.display=='main' || this.props.count==1){
-      var margin = {top: 100, right: 40, bottom: 20, left: 80};
+      var margin = {top: 100, right: 40, bottom: 20, left: 480};
     }
     else{
-      var margin = {top: 5, right: 40, bottom: 5, left: 80};
+      var margin = {top: 5, right: 40, bottom: 5, left: 480};
     }
     var width = this.state.width - margin.right - margin.left,
     height = this.state.height - margin.top - margin.bottom;
@@ -208,7 +208,7 @@ svg.append("g")
       .call(yAxis)
       .selectAll('text')
       .on('click',(d,i)=>{
-        this.props.clickhandler(this.props.gdatasets,i,'popup2');
+        //this.props.clickhandler(this.props.gdatasets,i,'popup2');
       })
       .attr('font-weight', 'normal');
 //------------------------------------------------------- Border starts here
@@ -276,7 +276,7 @@ svg.append("g")
 .call(yAxis)
 .selectAll('text')
 .on('click',(d,i)=>{
-this.props.clickhandler(this.props.gdatasets,i,'popup2');
+//this.props.clickhandler(this.props.gdatasets,i,'popup2');
 })
 .attr('font-weight', 'normal');
 //------Border starts here
