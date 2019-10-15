@@ -327,7 +327,7 @@ render() {
              return <FormGroup check className="formclass">
               <Label check>
               <Input type="checkbox" />{' '}
-                {item.substring(0, 45)+"..."}
+                {item.length>35?item.substring(0, 45)+"...": item}
               </Label>
             </FormGroup>
             })
