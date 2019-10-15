@@ -106,10 +106,10 @@ prep2(mydata,commonA,gdatasets){
    createHeatMap() {
     const node = this.node
     if(this.props.display=='main' || this.props.count==1){
-      var margin = {top: 100, right: 40, bottom: 20, left: 480};
+      var margin = {top: 100, right: 40, bottom: 20, left: 380};
     }
     else{
-      var margin = {top: 5, right: 40, bottom: 5, left: 480};
+      var margin = {top: 5, right: 40, bottom: 5, left: 380};
     }
     var width = this.state.width - margin.right - margin.left,
     height = this.state.height - margin.top - margin.bottom;
@@ -124,9 +124,12 @@ prep2(mydata,commonA,gdatasets){
       var data=this.prep2(this.props.datasets,this.props.commonA,this.props.gdatasets)
     }
     //console.log(data);
+    //var x_elements = d3.set(data.map(function( d ) { return d[1].substring(0,45)+"..."; } )).values();
+
     var x_elements = d3.set(data.map(function( d ) { return d[1]; } )).values();
-    //console.log(x_elements);
-    var y_elements = d3.set(data.map(function( d ) { return d[0]; } )).values();
+    console.log(x_elements);
+    //var y_elements = d3.set(data.map(function( d ) { return d[0].substring(0,45)+"..."; } )).values();
+    var y_elements = d3.set(data.map(function( d ) { return d[0]} )).values();
     
 // Ordinal Scaling for X axis
     var xScale = d3.scale.ordinal()

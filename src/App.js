@@ -280,6 +280,7 @@ handleUpload=(e)=>{
 }
 //-----------------------------------------------------------------Render function starts here  
 render() {
+  //console.log(this.state.uploaded_filenames) 
   //console.log(this.state.file)
   if(Object.keys(this.state.matrixdata).length>0){
   }
@@ -312,34 +313,31 @@ render() {
     </Navbar>
 { /* File Upload (first column starts here) */ }
     <Row className="row1">
-        <Col md="2" style={{padding:0}} className="upload" >
+        <Col md="3" style={{padding:0,overflow:'auto',marginLeft:3,marginRight:3}} className="upload" >
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
               <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
             </FormGroup>
-{ /* File list starts here */ }     
-          <div>     
+{ /* checkbox starts here */ }     
+        <div style={{overflow:'scroll'}}>     
           {this.state.uploaded_filenames.length>0 ? 
             <Form>
-            <FormGroup check className="formclass">
+        {this.state.uploaded_filenames.map((item)=>{
+             return <FormGroup check className="formclass">
               <Label check>
               <Input type="checkbox" />{' '}
-                Check me out
+                {item.substring(0, 45)+"..."}
               </Label>
             </FormGroup>
-            <FormGroup check className="formclass">
-              <Label check>
-              <Input type="checkbox" />{' '}
-                Check me out2
-              </Label>
-            </FormGroup>
-            <Button className="buttonclass" color="info" size="sm" block onClick={this.jsonHandler}>Process</Button>
+            })
+          }
+      <Button className="buttonclass" color="info" size="sm" block onClick={this.jsonHandler}>Process</Button>
             </Form>
                 : null
             }
-                </div>
-                </div>
+        </div>
+      </div>
       </Col>
 { /* Main view starts here */ }
       <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}>
