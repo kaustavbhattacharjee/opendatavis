@@ -5,7 +5,7 @@ import Popup from './Popup';
 import $ from "jquery"
 import axios from 'axios';
 import * as algorithms from './algorithms';
-import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input } from 'reactstrap';
+import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input,Label,Form,FormText} from 'reactstrap';
 class App extends Component {
   constructor(props) {
   super(props);
@@ -24,6 +24,7 @@ class App extends Component {
     popupdata2:"",
     file:{},
     modal: false,
+    uploaded_filenames:[],
   }
  this.child_view=this.child_view.bind(this);
  this.sort_by_dataset=this.sort_by_dataset.bind(this);
@@ -57,25 +58,17 @@ child_view(){
   var combinations2=algorithms.combinationgen2(index);
   var groups_to_vis=[];
 var grouped_datasets=algorithms.dataset_grouper(this.state.matrixdata.datasets,this.state.matrixdata.matrix,combinations2,);
-//grouped_datasets=grouped_datasets.map((d,i)=>{if (d[1].length>0) return d});
-//console.log(grouped_datasets)
+console.log(grouped_datasets)
+// Loop through each group and create the heat map
 for(var j=0;j<grouped_datasets.length;j++){
-  var c=j+1;
-  if(grouped_datasets[j][1].length==0){
-    c=1;
-    j=j+1;
-  }
-  if(grouped_datasets[j][1].length>0){
-  //console.log("I and j are :",i,j)
-    var a=  
+var c=j+1;
+var a=  
   <
-  HeatMap count={c} key={String(this.state.key)+j} gdatasets={grouped_datasets[j][1]} combinations={grouped_datasets[j][0]} 
+  HeatMap count={c} key={String(this.state.key)+j} gdatasets={grouped_datasets[j]} combinations={[0,1]} 
   display='child' mypopup={this.togglePopup} clickedA={this.state.clickedA} clickhandler={this.attribute_click_handler} 
   datasets={this.state.matrixdata} commonA={this.state.unionmade}  
   />
-
-  groups_to_vis.push({'item':a,'totalatt':grouped_datasets[j][0].length,'total_datasets':grouped_datasets[j][1].length});
-  }
+  groups_to_vis.push({'item':a,'totalatt':5,'total_datasets':grouped_datasets[j].length});
   this.setState({groups:groups_to_vis});
 }
 }
@@ -252,6 +245,16 @@ toggle() {
 handleFile=(e)=>{
   let file=e.target.files
   this.setState({file:file})
+  var filename_array=[];
+  var x = document.getElementById("fileupload");
+    for (var i = 0; i < x.files.length; i++) {
+      var myfile = x.files[i];
+      if ('name' in myfile) {
+        filename_array.push(myfile.name)
+      }
+    }
+    this.setState({uploaded_filenames:filename_array})
+    //console.log(filename_array);
 }
 handleUpload=(e)=>{
   let file=this.state.file;
@@ -277,12 +280,14 @@ handleUpload=(e)=>{
 }
 //-----------------------------------------------------------------Render function starts here  
 render() {
+  //console.log(this.state.uploaded_filenames) 
+  //console.log(this.state.file)
   if(Object.keys(this.state.matrixdata).length>0){
   }
   return (
     <div>
 { /* Navbar starts here */ }
-        <Navbar color="faded" light expand="sm">
+    <Navbar style={{backgroundColor:"rgb(224,224,224,.3)"}} expand="sm" >
           <NavbarBrand href="/">UrbanForest</NavbarBrand>
           <NavbarToggler/>
           <Collapse navbar>
@@ -301,31 +306,41 @@ render() {
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-                <NavLink>Components</NavLink>
-              </NavItem>
-              <NavItem>
-              <NavLink onClick={this.toggle}>Modal view</NavLink>
-              </NavItem>
-              <NavItem>
                 <Button color="primary" size="md" onClick={this.jsonHandler}>Process</Button>
               </NavItem>
             </Nav>
           </Collapse>
-        </Navbar>
+    </Navbar>
 { /* File Upload (first column starts here) */ }
-        <Row>
-          <Col md="2" style={{padding:1}}>
+    <Row className="row1">
+        <Col md="3" style={{padding:0,overflow:'auto',marginLeft:3,marginRight:3}} className="upload" >
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
-            <FormGroup action = "http://localhost:5000/uploader" method = "POST" className="formclass">
+            <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
-              <label htmlFor="fileupload"></label>
-              <Button color="secondary" size="sm" onClick={(e)=>this.handleUpload(e)}>Upload</Button>
+              <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
             </FormGroup>
-          </div>
-          </Col>
+{ /* checkbox starts here */ }     
+        <div style={{overflow:'scroll'}}>     
+          {this.state.uploaded_filenames.length>0 ? 
+            <Form>
+        {this.state.uploaded_filenames.map((item)=>{
+             return <FormGroup check className="formclass">
+              <Label check>
+              <Input type="checkbox" />{' '}
+                {item.length>35?item.substring(0, 45)+"...": item}
+              </Label>
+            </FormGroup>
+            })
+          }
+      <Button className="buttonclass" color="info" size="sm" block onClick={this.jsonHandler}>Process</Button>
+            </Form>
+                : null
+            }
+        </div>
+      </div>
+      </Col>
 { /* Main view starts here */ }
-          <Col md="10" style={{backgroundColor:"rgb(224,224,224,.3)",padding:1,overflow:"scroll"}}>
-          <div style={{width:"100%",height:"700px"}}>
+      <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}>
           <div>
               {
                   (Object.keys(this.state.matrixdata).length>0)?<HeatMap key={'key1'} gdatasets={[]} display='main' clickhandler={this.attribute_click_handler} datasets={this.state.matrixdata} commonA={this.state.unionmade} />:"Click process to display matrix"
@@ -347,10 +362,9 @@ render() {
           : null
        //pop up window ends here
        }
-      <div id="mySVG">
-      </div>
-          </div>
-          </Col>
+{ /* div for line starts here */ }      
+      <div id="mySVG"></div>
+      </Col>
         </Row>
 { /* Modal starts here */ }
         <Modal isOpen={this.state.modal} toggle={this.toggle} backdrop={this.state.backdrop} size="xl" style={{maxWidth: '1600px', width: '90%'}}>

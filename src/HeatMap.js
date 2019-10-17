@@ -16,20 +16,45 @@ class HeatMap extends Component {
    }
    componentWillMount(){
     var multiplier=18; // multiplier defines the cell size
+//----------Main display
     if(this.props.display=='main'){
-      this.setState({width:this.props.commonA.length*multiplier + 420})
+      if(this.props.commonA.length<15){
+        //console.log("less than 10")
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+      else{
+        console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.datasets.datasets.length*multiplier + 120})
       this.setState({dataset_length: this.props.datasets.datasets.length});
     }
+//----------
     else if(this.props.count==1){
-      this.setState({width:this.props.commonA.length*multiplier + 420})
+      if(this.props.commonA.length<15){
+        //console.log("Child is with count==1")
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+      else{
+        //console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.gdatasets.length*multiplier + 120})
       this.setState({dataset_length: this.props.gdatasets.length});
     }
+//----------child display
     else if(this.props.display=='child' && this.props.count!=1){
-      this.setState({width:this.props.commonA.length*multiplier + 420})
+      if(this.props.commonA.length<15){
+        //console.log("Child is with count!=1")
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
+      else{
+        //console.log(this.props.commonA.length)
+        this.setState({width:this.props.commonA.length*multiplier + 620})
+      }
       this.setState({attribute_length: this.props.commonA.length});
       this.setState({height:this.props.gdatasets.length*multiplier + 10})
       this.setState({dataset_length: this.props.gdatasets.length});
@@ -81,10 +106,10 @@ prep2(mydata,commonA,gdatasets){
    createHeatMap() {
     const node = this.node
     if(this.props.display=='main' || this.props.count==1){
-      var margin = {top: 100, right: 40, bottom: 20, left: 480};
+      var margin = {top: 100, right: 40, bottom: 20, left: 380};
     }
     else{
-      var margin = {top: 5, right: 40, bottom: 5, left: 480};
+      var margin = {top: 5, right: 40, bottom: 5, left: 380};
     }
     var width = this.state.width - margin.right - margin.left,
     height = this.state.height - margin.top - margin.bottom;
@@ -99,9 +124,12 @@ prep2(mydata,commonA,gdatasets){
       var data=this.prep2(this.props.datasets,this.props.commonA,this.props.gdatasets)
     }
     //console.log(data);
+    //var x_elements = d3.set(data.map(function( d ) { return d[1].substring(0,45)+"..."; } )).values();
+
     var x_elements = d3.set(data.map(function( d ) { return d[1]; } )).values();
-    //console.log(x_elements);
-    var y_elements = d3.set(data.map(function( d ) { return d[0]; } )).values();
+    console.log(x_elements);
+    //var y_elements = d3.set(data.map(function( d ) { return d[0].substring(0,45)+"..."; } )).values();
+    var y_elements = d3.set(data.map(function( d ) { return d[0]} )).values();
     
 // Ordinal Scaling for X axis
     var xScale = d3.scale.ordinal()
@@ -183,7 +211,7 @@ svg.append("g")
       .call(yAxis)
       .selectAll('text')
       .on('click',(d,i)=>{
-        this.props.clickhandler(this.props.gdatasets,i,'popup2');
+        //this.props.clickhandler(this.props.gdatasets,i,'popup2');
       })
       .attr('font-weight', 'normal');
 //------------------------------------------------------- Border starts here
@@ -251,7 +279,7 @@ svg.append("g")
 .call(yAxis)
 .selectAll('text')
 .on('click',(d,i)=>{
-this.props.clickhandler(this.props.gdatasets,i,'popup2');
+//this.props.clickhandler(this.props.gdatasets,i,'popup2');
 })
 .attr('font-weight', 'normal');
 //------Border starts here
@@ -300,9 +328,12 @@ render()
 {
   //console.log(this.props.count)
       return(
+      <div style={{display:'block'}}>
       <svg className="svgRectContainer" id={this.props.display=="main"? "svg0" :"svg"+this.props.count} ref={node => this.node = node}
       width={this.state.width} height={this.state.height}>
       </svg> 
+      </div>
+      
     )
 }
 }
