@@ -67,7 +67,7 @@ class HeatMap extends Component {
     }
   
   }
-  //--------------------------------Prepare for HeatMap here
+//--------------------------------Prepare for HeatMap here
    prep(mydata,commonA){
     var arr=[]
     for (var i=0;i<mydata.datasets.length;i++){
@@ -125,11 +125,11 @@ prep2(mydata,commonA,gdatasets){
     }
     //console.log(data);
     //var x_elements = d3.set(data.map(function( d ) { return d[1].substring(0,45)+"..."; } )).values();
-
-    var x_elements = d3.set(data.map(function( d ) { return d[1]; } )).values();
-    console.log(x_elements);
-    //var y_elements = d3.set(data.map(function( d ) { return d[0].substring(0,45)+"..."; } )).values();
-    var y_elements = d3.set(data.map(function( d ) { return d[0]} )).values();
+    var cloned_data = JSON.parse(JSON.stringify(data))
+    //var x_elements = d3.set(cloned_data.map(function( d ) { return d[1]; } )).values();
+    var x_elements = d3.set(cloned_data.map(function( d ) { return d[1].substring(0,55)+"..."; } )).values();
+    var y_elements = d3.set(data.map(function( d ) { return d[0].substring(0,55)+"..."; } )).values();
+    //var y_elements = d3.set(cloned_data.map(function( d ) { return d[0]} )).values();
     
 // Ordinal Scaling for X axis
     var xScale = d3.scale.ordinal()
@@ -161,6 +161,7 @@ prep2(mydata,commonA,gdatasets){
       svg.selectAll('rect')
       .data(data)
       .enter().append('rect')
+      
       d3.select(node)
       .selectAll('rect')
       .data(data)
@@ -175,10 +176,11 @@ if(this.props.display=='main'){
           .attr('id',(d,i)=>"cell"+i)
           .attr('width', width/(this.state.attribute_length)-1)
           .attr('height', height/(this.state.dataset_length)-1)
-          .attr('y', function(d) { return yScale(d[0]); })
-          .attr('x', function(d) { return xScale(d[1]); })
+          .attr('y', function(d) { console.log(d[0],yScale(d[0].substring(0,55)+"...")); return yScale(d[0].substring(0,55)+"..."); }) // d[0] returns the y element where substring has been applied; therefore, it should be applied here too. 
+          //.attr('y', function(d) { console.log(d[0],yScale(d[0].substring(0,55)+"...")); return yScale(d[0].substring(0,55)+"..."); }) // d[0] returns the y element where substring has been applied; therefore, it should be applied here too. 
+          .attr('x', function(d) { return xScale(d[1].substring(0,55)+"..."); })
           .attr('fill', (d)=> d[2]!=='n'? 'rgb(158,154,200)':"rgb(247,247, 247)")
-//--x axis
+//-----------------------x axis
 svg.append("g")
 .attr("class", "x axis")
 .call(xAxis)
@@ -205,7 +207,7 @@ svg.append("g")
 .attr("transform", function (d) {
     return "rotate(-45)";    
 });      
-//------------------------------------------------------- Y Axis
+//------------------------ Y Axis
 svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -241,8 +243,8 @@ if(this.props.display=='child'){
   .attr('id',(d,i)=>"cell"+i)
   .attr('width', width/(this.state.attribute_length)-1)
   .attr('height', height/(this.state.dataset_length)-1)
-  .attr('y', function(d) { return yScale(d[0]); })
-  .attr('x', function(d) { return xScale(d[1]); })
+  .attr('y', function(d) { return yScale(d[0].substring(0,55)+"..."); })
+  .attr('x', function(d) { return xScale(d[1].substring(0,55)+"..."); })
   .attr('fill', (d)=> d[2]!=='n'? 'rgb(158,154,200)':"rgb(247,247, 247)")
 //--x axis
 if(this.props.count==1){
