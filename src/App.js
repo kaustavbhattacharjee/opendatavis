@@ -264,7 +264,6 @@ handleUpload=(e)=>{
   }
   axios({
     url:'http://ec2-18-217-239-9.us-east-2.compute.amazonaws.com:5000/uploader',
-    //url:'http://localhost:5000/uploader',
     method:"POST",
     headers:{
     authorizition:'Hello'
