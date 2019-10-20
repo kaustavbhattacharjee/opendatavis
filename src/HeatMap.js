@@ -106,10 +106,10 @@ prep2(mydata,commonA,gdatasets){
    createHeatMap() {
     const node = this.node
     if(this.props.display=='main' || this.props.count==1){
-      var margin = {top: 100, right: 40, bottom: 20, left: 380};
+      var margin = {top: 100, right: 140, bottom: 20, left: 280};
     }
     else{
-      var margin = {top: 5, right: 40, bottom: 5, left: 380};
+      var margin = {top: 5, right: 140, bottom: 5, left: 280};
     }
     var width = this.state.width - margin.right - margin.left,
     height = this.state.height - margin.top - margin.bottom;
@@ -123,14 +123,9 @@ prep2(mydata,commonA,gdatasets){
     else{
       var data=this.prep2(this.props.datasets,this.props.commonA,this.props.gdatasets)
     }
-    //console.log(data);
-    //var x_elements = d3.set(data.map(function( d ) { return d[1].substring(0,45)+"..."; } )).values();
     var cloned_data = JSON.parse(JSON.stringify(data))
-    //var x_elements = d3.set(cloned_data.map(function( d ) { return d[1]; } )).values();
     var x_elements = d3.set(cloned_data.map(function( d ) { return d[1].substring(0,55)+"..."; } )).values();
-    var y_elements = d3.set(data.map(function( d ) { return d[0].substring(0,55)+"..."; } )).values();
-    //var y_elements = d3.set(cloned_data.map(function( d ) { return d[0]} )).values();
-    
+    var y_elements = d3.set(data.map(function( d ) { return d[0].substring(0,30)+"..."; } )).values();
 // Ordinal Scaling for X axis
     var xScale = d3.scale.ordinal()
       .domain(x_elements)
@@ -176,8 +171,7 @@ if(this.props.display=='main'){
           .attr('id',(d,i)=>"cell"+i)
           .attr('width', width/(this.state.attribute_length)-1)
           .attr('height', height/(this.state.dataset_length)-1)
-          .attr('y', function(d) { console.log(d[0],yScale(d[0].substring(0,55)+"...")); return yScale(d[0].substring(0,55)+"..."); }) // d[0] returns the y element where substring has been applied; therefore, it should be applied here too. 
-          //.attr('y', function(d) { console.log(d[0],yScale(d[0].substring(0,55)+"...")); return yScale(d[0].substring(0,55)+"..."); }) // d[0] returns the y element where substring has been applied; therefore, it should be applied here too. 
+          .attr('y', function(d) { return yScale(d[0].substring(0,30)+"..."); }) // d[0] returns the y element where substring has been applied; therefore, it should be applied here too. 
           .attr('x', function(d) { return xScale(d[1].substring(0,55)+"..."); })
           .attr('fill', (d)=> d[2]!=='n'? 'rgb(158,154,200)':"rgb(247,247, 247)")
 //-----------------------x axis
@@ -243,7 +237,7 @@ if(this.props.display=='child'){
   .attr('id',(d,i)=>"cell"+i)
   .attr('width', width/(this.state.attribute_length)-1)
   .attr('height', height/(this.state.dataset_length)-1)
-  .attr('y', function(d) { return yScale(d[0].substring(0,55)+"..."); })
+  .attr('y', function(d) { return yScale(d[0].substring(0,30)+"..."); })
   .attr('x', function(d) { return xScale(d[1].substring(0,55)+"..."); })
   .attr('fill', (d)=> d[2]!=='n'? 'rgb(158,154,200)':"rgb(247,247, 247)")
 //--x axis

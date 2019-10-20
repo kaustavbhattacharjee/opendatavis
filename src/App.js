@@ -58,7 +58,6 @@ child_view(){
   var combinations2=algorithms.combinationgen2(index);
   var groups_to_vis=[];
 var grouped_datasets=algorithms.dataset_grouper(this.state.matrixdata.datasets,this.state.matrixdata.matrix,combinations2,);
-console.log(grouped_datasets)
 // Loop through each group and create the heat map
 for(var j=0;j<grouped_datasets.length;j++){
 var c=j+1;
@@ -312,7 +311,7 @@ render() {
     </Navbar>
 { /* File Upload (first column starts here) */ }
     <Row className="row1">
-        <Col md="3" style={{padding:0,overflow:'auto',marginLeft:3,marginRight:3}} className="upload" >
+        <Col md="2" style={{padding:0,overflow:'auto',marginLeft:3,marginRight:1}} className="upload" >
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
@@ -326,7 +325,7 @@ render() {
              return <FormGroup check className="formclass">
               <Label check>
               <Input type="checkbox" />{' '}
-                {item.length>35?item.substring(0, 45)+"...": item}
+                {item.length>23?item.substring(0, 23)+" . .": item}
               </Label>
             </FormGroup>
             })
