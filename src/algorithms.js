@@ -299,10 +299,9 @@ for(var i=0;i<arr.length;i++){
         array_dataset.push(result);
     }
     else{
-        console.log("Zero...",result)  
+        //console.log("Zero...",result)  
     }
 }
-console.log(array_dataset)
 return array_dataset;
 
 }
